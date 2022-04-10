@@ -2,7 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './Dashboard.css';
 import * as Realm from "realm-web";
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Stack from '@mui/material/Stack';
+import Chart from './Chart';
+
 
 const app = new Realm.App({ id: "pitchinganalytics-uchws" });
 
@@ -14,6 +21,40 @@ function UserDetail({ user }) {
       <h1>Logged in with anonymous id: {user.id}</h1>
     </div>
   );
+}
+
+function GameControls({games, numGames, curGameNum, setCurGameNum}) {
+
+	function decrement () {
+		if (curGameNum > 1) {
+			setCurGameNum(curGameNum - 1);
+		}
+	}
+
+	function increment() {
+		if (curGameNum < numGames) {
+			setCurGameNum(curGameNum + 1);
+		}
+	};
+	
+
+	return (
+		<Stack direction="row" spacing={1}>
+			<IconButton
+				color="primary"
+				aria-label="Backward"
+				onClick={() => decrement() }>
+				<ArrowBackIcon />
+			</IconButton>
+			<NumberOfGames numGames={curGameNum}/>
+			<IconButton
+				color="primary"
+				aria-label="Forward"
+			  onClick={() => increment()}>
+				<ArrowForwardIcon />
+			</IconButton>
+		</Stack>
+	)
 }
 
 // Create a component that lets an anonymous user log in
@@ -32,42 +73,51 @@ function NumberOfGames({ numGames }) {
 function App() {
 
 	const [user, setUser] = useState(app.currentUser);
-	const [startGame, setStartGame] = useState(null);
-	const [endGame, setEndGame] = useState(null);
+	const [firstGame, setFirstGame] = useState(null);
+	const [lastGame, setLastGame] = useState(null);
 	const [allGames, setAllGames] = useState([]);
 	const [numGames, setNumGames] = useState(0);
+	const [curGameNum, setCurGameNum] = useState(1);
 	
 	useEffect(() => {
 		 async function getGames() {
-			await getGameDetails();
+			 const gameDetails = await user.functions.getAllGameDetails();
+			 console.log("setting game details");
+			 const nGames = gameDetails ? gameDetails.length : 0;
+			 console.log("number of games is ", nGames);
+			 setAllGames(gameDetails);
+			 setAllGames(gameDetails);
+			 setFirstGame(gameDetails[0]);
+			 setLastGame(gameDetails[nGames - 1]);
+			 setNumGames(nGames);
 		 }
 		console.log("before getGames()");
 		getGames();
 		console.log("after getGames()");
 	},
-						[])
+						[user.functions])
 
 
-	async function getGameDetails() {
-		const gameDetails = await user.functions.getAllGameDetails();
-		console.log("setting game details");
-		const nGames = gameDetails ? gameDetails.length : 0;
-		console.log("number of games is ", nGames);
-		setAllGames(gameDetails);
-		setAllGames(gameDetails);
-		setStartGame(gameDetails[0]);
-		setEndGame(gameDetails[nGames - 1]);
-		setNumGames(nGames);
-	}
 	
   return (
+
     <div className="App">
       <header className="App-header">
         <p>
 					Pitching Analytics. Analyzing {<NumberOfGames numGames={numGames}/>} games.
         </p>
+				{
+					<GameControls games={allGames}
+												numGames={numGames}
+												curGameNum={curGameNum}
+												setCurGameNum={setCurGameNum}
+					/>
+				}
       </header>
-			<div className="App-header">
+			<div className="charts">
+				<Chart height={'600px'} width={'800px'} filter={{"gameDetails.Game" : curGameNum}} chartId={'6238cb4a-02d9-4646-8539-4ef6333e520b'} />
+			</div>
+			<div className="Footer">
         {user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
       </div>
     </div>
