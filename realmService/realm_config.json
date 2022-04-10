@@ -1,0 +1,7 @@
+{
+    "app_id": "pitchinganalytics-uchws",
+    "config_version": 20210101,
+    "name": "pitchingAnalytics",
+    "location": "US-VA",
+    "deployment_model": "LOCAL"
+}
