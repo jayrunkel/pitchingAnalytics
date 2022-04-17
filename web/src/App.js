@@ -122,18 +122,19 @@ function App() {
 			 setNumGames(nGames);
 		 }
 		console.log("before getGames()");
-		getGames();
+		if (user) {
+			getGames();
+		}
 		console.log("after getGames()");
 	},
-						[user.functions])
+						[user]) //user.functions
 
 	useEffect(() => {
 		console.log("selectedChartId changed to: ", selectedChartId);
 	},
 						[selectedChartId])
-	
-  return (
-
+	return (
+		user ? 
     <div className="App">
       <header className="App-header">
         <p>
@@ -160,11 +161,12 @@ function App() {
 					: <span>Select a chart</span>
 				}
 			</div>
-			<div className="Footer">
-        {user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
-      </div>
+		</div>
+		:
+		<div className="Footer">
+      {user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
     </div>
-  );
+	);
 }
 
 /*

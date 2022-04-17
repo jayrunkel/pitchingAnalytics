@@ -32,14 +32,20 @@ export const Dashboard = ({filter, height, width}) => {
 }
 
 export const Chart = ({filter, chartId, height, width}) => {
-  const sdk = new ChartsEmbedSDK({baseUrl: 'https://charts.mongodb.com/charts-runkel-bbjup'});
+  
   const chartDiv = useRef(null);
   const [rendered, setRendered] = useState(false);
-  const [chart] = useState(sdk.createChart({chartId: chartId, height: height, width: width, theme: "dark"}));
+  const [chart, setChart] = useState(null);
 
+	console.log("Chart filter: ", JSON.stringify(filter));
+	
   useEffect(() => {
-    chart.render(chartDiv.current).then(() => setRendered(true)).catch(err => console.log("Error during Charts rendering.", err));
-  }, [chart]);
+		const sdk = new ChartsEmbedSDK({baseUrl: baseUrl});
+		const chartHandle = sdk.createChart({chartId: chartId, height: height, width: width, theme: "dark"});
+		console.log("Chart handle: ", chartHandle);
+		setChart(chartHandle);
+    chartHandle.render(chartDiv.current).then(() => setRendered(true)).catch(err => console.log("Error during Charts rendering.", err));
+  }, [chartId, height, width]);
 
   useEffect(() => {
     if (rendered) {
