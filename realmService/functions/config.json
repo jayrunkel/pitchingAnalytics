@@ -2,5 +2,9 @@
     {
         "name": "getAllGameDetails",
         "private": false
+    },
+    {
+        "name": "getGameStats",
+        "private": false
     }
 ]

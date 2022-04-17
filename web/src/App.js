@@ -150,22 +150,27 @@ function App() {
 					/>
 				}
       </header>
-			<div className="chartSelector">
-				<DashboardSelect curSelectedChart={selectedChartId}
-												 setCurSelectedChart={setSelectedChartId} />
-			</div>
-			<div className="charts">
-				{
-					(selectedChartId)
-						? <Chart height={'600px'} width={'800px'} filter={buildChartFilter(selectedChartId, showAllGames, curGameNum)} chartId={selectedChartId} />
-					: <span>Select a chart</span>
-				}
-			</div>
+			<Stack name="statsBody" direction="column">
+				<Stack name="gameStats" direction="row">
+					Game stats go here
+				</Stack>
+				<Stack name="chartSection" direction="row">
+					<DashboardSelect curSelectedChart={selectedChartId}
+													 setCurSelectedChart={setSelectedChartId} />
+					<div className="charts">
+						{
+							(selectedChartId)
+								? <Chart height={'600px'} width={'800px'} filter={buildChartFilter(selectedChartId, showAllGames, curGameNum)} chartId={selectedChartId} />
+							: <span>Select a chart</span>
+						}
+					</div>
+				</Stack>
+			</Stack>
 		</div>
 		:
-		<div className="Footer">
-      {user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
-    </div>
+			<div className="Footer">
+				{user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
+			</div>
 	);
 }
 
