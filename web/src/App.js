@@ -14,6 +14,7 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import Stack from '@mui/material/Stack';
 import {Chart} from './Chart';
 import {buildChartFilter, DashboardSelect} from './DashboardSelect';
+import {GameStats} from './GameStats';
 
 
 
@@ -110,16 +111,21 @@ function App() {
 	const [selectedChartId, setSelectedChartId] = useState('');
 	
 	useEffect(() => {
-		 async function getGames() {
-			 const gameDetails = await user.functions.getAllGameDetails();
-			 console.log("setting game details");
-			 const nGames = gameDetails ? gameDetails.length : 0;
-			 console.log("number of games is ", nGames);
-			 setAllGames(gameDetails);
-			 setAllGames(gameDetails);
-			 setFirstGame(gameDetails[0]);
-			 setLastGame(gameDetails[nGames - 1]);
-			 setNumGames(nGames);
+		async function getGames() {
+			try {
+				const gameDetails = await user.functions.getAllGameDetails();
+				console.log("setting game details");
+				const nGames = gameDetails ? gameDetails.length : 0;
+				console.log("number of games is ", nGames);
+				setAllGames(gameDetails);
+				setAllGames(gameDetails);
+				setFirstGame(gameDetails[0]);
+				setLastGame(gameDetails[nGames - 1]);
+				setNumGames(nGames);
+			} catch(error) {
+				console.error("Error getting game details", error.message);
+			}
+
 		 }
 		console.log("before getGames()");
 		if (user) {
@@ -150,11 +156,11 @@ function App() {
 					/>
 				}
       </header>
+			<div class="statsBody">
 			<Stack name="statsBody" direction="column">
-				<Stack name="gameStats" direction="row">
-					Game stats go here
-				</Stack>
-				<Stack name="chartSection" direction="row">
+				<GameStats name="gameStats" showAllGames={showAllGames} gameNum={curGameNum} user={user}/>
+				<div class="chartsSection">
+				<Stack class="chartsSection" name="chartSection" direction="row">
 					<DashboardSelect curSelectedChart={selectedChartId}
 													 setCurSelectedChart={setSelectedChartId} />
 					<div className="charts">
@@ -165,10 +171,12 @@ function App() {
 						}
 					</div>
 				</Stack>
+					</div>
 			</Stack>
+				</div>
 		</div>
 		:
-			<div className="Footer">
+			<div classame="Footer">
 				{user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
 			</div>
 	);

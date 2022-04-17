@@ -155,12 +155,12 @@ exports = async function(game){
  }
 				}}];
 
-	const matchStage = [isNaN(game) ? null : {$match: {'gameDetails.Game': game}}];
+	const matchStage = game === 0 ? null : [{$match: {'gameDetails.Game': game}}];
 
-	console.log("game: ", JSON.stringify(game));
+	console.log("game: ", game);
 	console.log("matchStage: ", JSON.stringify(matchStage));
   var collection = context.services.get("mongodb-atlas").db("Baseball").collection("battersView");
-	const gameDetails = await collection.aggregate(isNaN(game) ? aggPipeline : matchStage.concat(aggPipeline)).toArray();
+	const gameDetails = await collection.aggregate(game === 0 ? aggPipeline : matchStage.concat(aggPipeline)).toArray();
 
 	console.log("gameDetails: ", JSON.stringify(gameDetails));
 	

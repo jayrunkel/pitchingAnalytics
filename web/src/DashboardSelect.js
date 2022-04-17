@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Stack from '@mui/material/Stack';
+import './App.css';
 
 const chartList =
 {
@@ -69,28 +70,36 @@ export function buildChartFilter(chartId, showAllGames, gameSelection) {
 
 export const DashboardSelect = ({ curSelectedChart, setCurSelectedChart}) => {
 
-	const handleChange = (event) => {
-		const selectedChart = event.target.value;
-		setCurSelectedChart(selectedChart);
-		console.log("Selected chart: ", selectedChart);
+	const handleClick = (chartId) => {
+		setCurSelectedChart(chartId);
+		console.log("Selected chart: ", chartId);
 	};
 
-	const options = chartList.charts.map((chartObj) => {
+	const charts = chartList.charts.map((chartObj) => {
 		return (
-			<option key={chartObj.chartNum} value={chartObj.chartId}>{
+			<label class="chartSelectLabel"
+						 key={chartObj.chartNum}
+						 styles={chartObj.chartId === curSelectedChart ? {color: 'green', 'text-decoration-color': 'green'} : {}}
+						 onClick={() => handleClick(chartObj.chartId)}>{
 				chartObj.name
 			}
-			</option>
+			</label>
 		);
 	});
 	
 	return (
+
+		<Stack direction="column">
+			{charts}
+		</Stack>
+/*		
 		<Stack direction="row">
 			<label htmlFor="chartSelect">Select Chart</label>
 			<select name="chartSelect" className="chartSelect" value={curSelectedChart} onChange={handleChange}>
 				{options}
 			</select>
 		</Stack>
+*/
 	);
 	
 }
