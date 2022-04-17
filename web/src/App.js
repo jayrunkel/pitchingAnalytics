@@ -5,10 +5,16 @@ import './App.css';
 import './Dashboard.css';
 import * as Realm from "realm-web";
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+//import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import Chart from './Chart';
+import {Chart} from './Chart';
+import {buildChartFilter, DashboardSelect} from './DashboardSelect';
+
 
 
 const app = new Realm.App({ id: "pitchinganalytics-uchws" });
@@ -23,7 +29,7 @@ function UserDetail({ user }) {
   );
 }
 
-function GameControls({games, numGames, curGameNum, setCurGameNum}) {
+function GameControls({games, numGames, curGameNum, setCurGameNum, showAllGames, setShowAllGames}) {
 
 	function decrement () {
 		if (curGameNum > 1) {
@@ -36,23 +42,45 @@ function GameControls({games, numGames, curGameNum, setCurGameNum}) {
 			setCurGameNum(curGameNum + 1);
 		}
 	};
-	
 
-	return (
-		<Stack direction="row" spacing={1}>
-			<IconButton
-				color="primary"
-				aria-label="Backward"
-				onClick={() => decrement() }>
-				<ArrowBackIcon />
-			</IconButton>
-			<NumberOfGames numGames={curGameNum}/>
-			<IconButton
-				color="primary"
-				aria-label="Forward"
-			  onClick={() => increment()}>
-				<ArrowForwardIcon />
-			</IconButton>
+	function toggleShowAllGames(newState) {
+		setShowAllGames(newState);
+	}
+
+
+		return (
+				<Stack direction="row" spacing={20} justifyContent="space-between">
+			{
+				showAllGames 
+					? <Button variant="outlined"
+								startIcon={<RadioButtonCheckedIcon />}
+								onClick={() => toggleShowAllGames(false)}>
+						All Games
+						</Button>
+					: <Stack direction="row" space={4} justifyContent="space-between">
+								<Button variant="outlined"
+												startIcon={<RadioButtonUncheckedIcon />}
+												onClick={() => toggleShowAllGames(true)}>
+										All Games
+								</Button>
+						
+						<Stack direction="row" spacing={1}>
+							<IconButton
+								color={showAllGames ? "disabled" : "primary"}
+								aria-label="Backward"
+								onClick={() => decrement() }>
+								<ArrowBackIcon />
+							</IconButton>
+							<NumberOfGames numGames={curGameNum}/>
+							<IconButton
+								color={showAllGames ? "disabled" : "primary"}
+								aria-label="Forward"
+								onClick={() => increment()}>
+								<ArrowForwardIcon />
+							</IconButton>
+						</Stack>
+					</Stack>
+			}
 		</Stack>
 	)
 }
@@ -78,6 +106,8 @@ function App() {
 	const [allGames, setAllGames] = useState([]);
 	const [numGames, setNumGames] = useState(0);
 	const [curGameNum, setCurGameNum] = useState(1);
+	const [showAllGames, setShowAllGames] = useState(false);
+	const [selectedChartId, setSelectedChartId] = useState('');
 	
 	useEffect(() => {
 		 async function getGames() {
@@ -97,7 +127,10 @@ function App() {
 	},
 						[user.functions])
 
-
+	useEffect(() => {
+		console.log("selectedChartId changed to: ", selectedChartId);
+	},
+						[selectedChartId])
 	
   return (
 
@@ -111,11 +144,21 @@ function App() {
 												numGames={numGames}
 												curGameNum={curGameNum}
 												setCurGameNum={setCurGameNum}
+												showAllGames={showAllGames}
+												setShowAllGames={setShowAllGames}
 					/>
 				}
       </header>
+			<div className="chartSelector">
+				<DashboardSelect curSelectedChart={selectedChartId}
+												 setCurSelectedChart={setSelectedChartId} />
+			</div>
 			<div className="charts">
-				<Chart height={'600px'} width={'800px'} filter={{"gameDetails.Game" : curGameNum}} chartId={'6238cb4a-02d9-4646-8539-4ef6333e520b'} />
+				{
+					(selectedChartId)
+						? <Chart height={'600px'} width={'800px'} filter={buildChartFilter(selectedChartId, showAllGames, curGameNum)} chartId={selectedChartId} />
+					: <span>Select a chart</span>
+				}
 			</div>
 			<div className="Footer">
         {user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
