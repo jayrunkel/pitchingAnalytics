@@ -82,8 +82,8 @@ export const DashboardSelect = ({ curSelectedChart, setCurSelectedChart}) => {
 
 	const selectedChartStyle = {
 		color: 'green',
-		'text-decoration-color': 'green',
-		'font-weight': 'bold'
+		'textDecorationColor': 'green',
+		'fontWeight': 'bold'
 	};
 	
 	const handleClick = (chartId) => {

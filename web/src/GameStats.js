@@ -36,15 +36,18 @@ export function GameStats({user, showAllGames, gameNum, games}) {
 	}, [showAllGames, gameNum, user])
 
 
+	console.log("Building Game Stats section: ", JSON.stringify(games));
+	console.log("gameNum: ", gameNum);
+	console.log("games[gameNum - 1]: ", games[gameNum - 1]);
 
 	return (
 		<Stack className="gameStats" direction="column" spacing={2} justifyContent="space-evenly">
 			<Stack key={1} direction="row" spacing={2} justifyContent="space-evenly">
 				{
 					(games && games.length > 0)  ? [
-						<Item key={1}><b>Date:</b> {games[gameNum].Date.toString()}</Item>,
-						<Item key={2}><b>Opponent:</b> {games[gameNum].Opponent}</Item>,
-						<Item key={3}><b>Location:</b> {games[gameNum].HomeAway}</Item>
+						<Item key={1}><b>Date:</b> {games[gameNum - 1].Date.toString()}</Item>,
+						<Item key={2}><b>Opponent:</b> {games[gameNum - 1].Opponent}</Item>,
+						<Item key={3}><b>Location:</b> {games[gameNum - 1].HomeAway}</Item>
 					]
 					: <Item>Showing all games</Item>
 				}
