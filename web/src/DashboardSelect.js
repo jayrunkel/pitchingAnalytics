@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Stack from '@mui/material/Stack';
 import './App.css';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
 const chartList =
 {
@@ -68,8 +70,22 @@ export function buildChartFilter(chartId, showAllGames, gameSelection) {
 	return filter;
 }
 
+const Heading = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 export const DashboardSelect = ({ curSelectedChart, setCurSelectedChart}) => {
 
+	const selectedChartStyle = {
+		color: 'green',
+		'text-decoration-color': 'green',
+		'font-weight': 'bold'
+	};
+	
 	const handleClick = (chartId) => {
 		setCurSelectedChart(chartId);
 		console.log("Selected chart: ", chartId);
@@ -77,9 +93,9 @@ export const DashboardSelect = ({ curSelectedChart, setCurSelectedChart}) => {
 
 	const charts = chartList.charts.map((chartObj) => {
 		return (
-			<label class="chartSelectLabel"
+			<label className="chartSelectLabel"
 						 key={chartObj.chartNum}
-						 styles={chartObj.chartId === curSelectedChart ? {color: 'green', 'text-decoration-color': 'green'} : {}}
+						 style={chartObj.chartId === curSelectedChart ? selectedChartStyle : {}}
 						 onClick={() => handleClick(chartObj.chartId)}>{
 				chartObj.name
 			}
@@ -89,8 +105,8 @@ export const DashboardSelect = ({ curSelectedChart, setCurSelectedChart}) => {
 	
 	return (
 
-		<Stack direction="column">
-			{charts}
+		<Stack direction="column" className="dashboardSelect">
+			{[<Heading key={0}>Select Chart</Heading>, charts]}
 		</Stack>
 /*		
 		<Stack direction="row">

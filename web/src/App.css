@@ -35,15 +35,28 @@
 .chartsSection {
 		margin-top: 15px;
 		border-top-width: 1px;
-		border-top-color: "gray";
-
+		border-top-color: blue;
+		border-top-style: solid;
 }
 
 .chartSelectLabel {
+		margin-top: 5px;
 		text-align: left;
 		text-decoration: underline;
 		text-decoration-color: "blue";
 		color: "blue";
+}
+
+.charts {
+		margin-top: 15px;
+}
+
+.dashboardSelect {
+		border-right-width: 1px;
+		border-right-color: blue;
+		border-right-style: solid;
+		margin-right: 15px;
+		padding: 10px;
 }
 
 @keyframes App-logo-spin {

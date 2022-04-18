@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export function GameStats({user, showAllGames, gameNum}) {
+export function GameStats({user, showAllGames, gameNum, games}) {
 
 	const [gameDetails, setGameDetails] = useState(null);
 	
@@ -38,21 +38,33 @@ export function GameStats({user, showAllGames, gameNum}) {
 
 
 	return (
-		<Stack name="gameStats" direction="row" spacing={2} justifyContent="space-evenly">
-			{
-				gameDetails ?
-					Object.keys(gameDetails).
-					filter((key) => key != "_id")
-					.map((statName, idx) =>
-						<Item key={idx}>
-							<Stack className="statBox" direction="column">
-								<label name="statLabel">{statName}</label>
-								<div name="statValue">{gameDetails[statName]}</div>
-							</Stack>
-						</Item>
-					)
-					: <div>loading game stats...</div>
-			}
+		<Stack className="gameStats" direction="column" spacing={2} justifyContent="space-evenly">
+			<Stack key={1} direction="row" spacing={2} justifyContent="space-evenly">
+				{
+					(games && games.length > 0)  ? [
+						<Item key={1}><b>Date:</b> {games[gameNum].Date.toString()}</Item>,
+						<Item key={2}><b>Opponent:</b> {games[gameNum].Opponent}</Item>,
+						<Item key={3}><b>Location:</b> {games[gameNum].HomeAway}</Item>
+					]
+					: <Item>Showing all games</Item>
+				}
+			</Stack>
+			<Stack key={2} direction="row" spacing={2} justifyContent="space-evenly">
+				{
+					gameDetails ?
+						Object.keys(gameDetails)
+						.filter((key) => key !== "_id")
+						.map((statName, idx) =>
+							<Item key={idx}>
+								<Stack className="statBox" direction="column">
+									<label className="statLabel">{statName}</label>
+									<div className="statValue">{gameDetails[statName]}</div>
+								</Stack>
+							</Item>
+						)
+						: <div>loading game stats...</div>
+				}
+			</Stack>
 		</Stack>
 	);
 

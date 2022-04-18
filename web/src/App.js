@@ -102,8 +102,6 @@ function NumberOfGames({ numGames }) {
 function App() {
 
 	const [user, setUser] = useState(app.currentUser);
-	const [firstGame, setFirstGame] = useState(null);
-	const [lastGame, setLastGame] = useState(null);
 	const [allGames, setAllGames] = useState([]);
 	const [numGames, setNumGames] = useState(0);
 	const [curGameNum, setCurGameNum] = useState(1);
@@ -119,8 +117,6 @@ function App() {
 				console.log("number of games is ", nGames);
 				setAllGames(gameDetails);
 				setAllGames(gameDetails);
-				setFirstGame(gameDetails[0]);
-				setLastGame(gameDetails[nGames - 1]);
 				setNumGames(nGames);
 			} catch(error) {
 				console.error("Error getting game details", error.message);
@@ -156,11 +152,9 @@ function App() {
 					/>
 				}
       </header>
-			<div class="statsBody">
-			<Stack name="statsBody" direction="column">
-				<GameStats name="gameStats" showAllGames={showAllGames} gameNum={curGameNum} user={user}/>
-				<div class="chartsSection">
-				<Stack class="chartsSection" name="chartSection" direction="row">
+			<Stack className="statsBody" direction="column">
+				<GameStats className="gameStats" games={allGames} showAllGames={showAllGames} gameNum={curGameNum} user={user}/>
+				<Stack className="chartsSection" name="chartSection" direction="row">
 					<DashboardSelect curSelectedChart={selectedChartId}
 													 setCurSelectedChart={setSelectedChartId} />
 					<div className="charts">
@@ -171,12 +165,10 @@ function App() {
 						}
 					</div>
 				</Stack>
-					</div>
 			</Stack>
-				</div>
 		</div>
 		:
-			<div classame="Footer">
+			<div className="Footer">
 				{user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
 			</div>
 	);

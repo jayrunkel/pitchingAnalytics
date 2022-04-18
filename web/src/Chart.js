@@ -43,6 +43,7 @@ export const Chart = ({filter, chartId, height, width}) => {
 		const sdk = new ChartsEmbedSDK({baseUrl: baseUrl});
 		const chartHandle = sdk.createChart({chartId: chartId, height: height, width: width, theme: "dark"});
 		console.log("Chart handle: ", chartHandle);
+		setRendered(false);
 		setChart(chartHandle);
     chartHandle.render(chartDiv.current).then(() => setRendered(true)).catch(err => console.log("Error during Charts rendering.", err));
   }, [chartId, height, width]);
