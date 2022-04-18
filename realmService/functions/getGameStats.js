@@ -5,7 +5,7 @@ exports = async function(game){
 	*/
 
 	const aggPipeline =
-				[{$group: {
+[{$group: {
  _id: null,
  battersFaced: {
   $count: {}
@@ -80,6 +80,20 @@ exports = async function(game){
    }
   }
  },
+ errors: {
+  $sum: {
+   $cond: {
+    'if': {
+     $eq: [
+      '$outcome',
+      'Error'
+     ]
+    },
+    then: 1,
+    'else': 0
+   }
+  }
+ },
  strikes: {
   $sum: {
    $reduce: {
@@ -130,6 +144,9 @@ exports = async function(game){
    }
   }
  },
+ pitches: {
+  $count: {}
+ },
  firstPitchStrikes: {
   $sum: {
    $let: {
@@ -153,7 +170,36 @@ exports = async function(game){
    }
   }
  }
-				}}];
+}}, {$addFields: {
+ nonHits: {
+  $add: [
+   '$walks',
+   '$hitBatters',
+   '$errors'
+  ]
+ }
+}}, {$addFields: {
+ opponentAvg: {
+  $round: [
+   {
+    $divide: [
+     '$hits',
+     {
+      $subtract: [
+       '$battersFaced',
+       '$nonHits'
+      ]
+     }
+    ]
+   },
+   3
+  ]
+ }
+}}, {$project: {
+ nonHits: 0,
+ errors: 0
+}}];
+				
 
 	const matchStage = game === 0 ? null : [{$match: {'gameDetails.Game': game}}];
 

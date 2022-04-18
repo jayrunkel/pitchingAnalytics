@@ -15,6 +15,10 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+function formatStatName(str) {
+	return str.split(/(?=[A-Z])/).map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+}
+
 export function GameStats({user, showAllGames, gameNum, games}) {
 
 	const [gameDetails, setGameDetails] = useState(null);
@@ -60,7 +64,7 @@ export function GameStats({user, showAllGames, gameNum, games}) {
 						.map((statName, idx) =>
 							<Item key={idx}>
 								<Stack className="statBox" direction="column">
-									<label className="statLabel">{statName}</label>
+									<label className="statLabel">{formatStatName(statName)}</label>
 									<div className="statValue">{gameDetails[statName]}</div>
 								</Stack>
 							</Item>
