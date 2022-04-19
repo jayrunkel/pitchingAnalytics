@@ -4,9 +4,11 @@ exports = async function(game){
     var x = context.values.get("value_name");
 	*/
 
+	// if game === 0, show the data for all games
+
 	const aggPipeline =
 [{$group: {
- _id: null,
+	_id: (game === 0) ? null : "$gameDetails.Game",
  battersFaced: {
   $count: {}
  },
@@ -177,6 +179,13 @@ exports = async function(game){
    '$hitBatters',
    '$errors'
   ]
+ },
+ onBase: {
+   $add: [
+     '$walks',
+     '$hitBatters',
+     '$errors',
+     '$hits']
  }
 }}, {$addFields: {
  opponentAvg: {
@@ -193,11 +202,22 @@ exports = async function(game){
     ]
    },
    3
-  ]
+  ]},
+  onBaseAvg: {
+  $round: [
+   {
+    $divide: [
+     '$onBase',
+     '$battersFaced',
+      ]
+   },
+   3
+  ],
  }
 }}, {$project: {
  nonHits: 0,
- errors: 0
+ errors: 0,
+ _id: 0,
 }}];
 				
 
