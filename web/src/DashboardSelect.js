@@ -56,6 +56,14 @@ const chartList =
 			chartId: "625af073-8858-4a52-8446-eda326a5b7da",
 			gameFilterField: {"Game": null}
 		},
+		{
+			chartNum: 9,
+			name: "Batter Performance",
+			chartId: "625df89d-3c68-493c-8c2c-955d829f4938",
+			gameFilterField: {"Game": null}
+		},
+		
+		
 	]
 };
 

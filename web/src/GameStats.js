@@ -26,8 +26,8 @@ export function GameStats({user, showAllGames, gameNum, games}) {
 	useEffect(() => {
 		async function getGameStats(game) {
 			try {
-				const gameStats = await user.functions.getGameStats(game);
-				setGameDetails(gameStats[0]);
+			    const gameStats = await user.functions.getGameStatsGroup(game);
+			    setGameDetails(gameStats);
 				
 			} catch(error) {
 				console.error("Error getting game stats", error.message);
@@ -42,13 +42,14 @@ export function GameStats({user, showAllGames, gameNum, games}) {
 
 	console.log("Building Game Stats section: ", JSON.stringify(games));
 	console.log("gameNum: ", gameNum);
-	console.log("games[gameNum - 1]: ", games[gameNum - 1]);
+    console.log("games[gameNum - 1]: ", games[gameNum - 1]);
+    console.log("gameDetails: ", JSON.stringify(gameDetails));
 
 	return (
 		<Stack className="gameStats" direction="column" spacing={2} justifyContent="space-evenly">
 			<Stack key={1} direction="row" spacing={2} justifyContent="space-evenly">
 				{
-					(games && games.length > 0)  ? [
+					(games && games.length > 0 && !showAllGames)  ? [
 						<Item key={1}><b>Date:</b> {games[gameNum - 1].Date.toString()}</Item>,
 						<Item key={2}><b>Opponent:</b> {games[gameNum - 1].Opponent}</Item>,
 						<Item key={3}><b>Location:</b> {games[gameNum - 1].HomeAway}</Item>
@@ -58,18 +59,23 @@ export function GameStats({user, showAllGames, gameNum, games}) {
 			</Stack>
 			<Stack key={2} direction="row" spacing={2} justifyContent="space-evenly">
 				{
-					gameDetails ?
-						Object.keys(gameDetails)
-						.filter((key) => key !== "_id")
-						.map((statName, idx) =>
-							<Item key={idx}>
+				    gameDetails ?
+					gameDetails.map((statGroup) =>
+					    <Stack key={statGroup.displayOrder} className="statGroup" direction="row" spacing={2} justify-content="space-evenly">
+						{
+						    Object.keys(statGroup.fields)
+							.map((statName, idx) =>
+							    <Item key={idx}>
 								<Stack className="statBox" direction="column">
-									<label className="statLabel">{formatStatName(statName)}</label>
-									<div className="statValue">{gameDetails[statName]}</div>
+								    <label className="statLabel">{formatStatName(statName)}</label>
+								    <div className="statValue">{statGroup.fields[statName]}</div>
 								</Stack>
-							</Item>
-						)
-						: <div>loading game stats...</div>
+							    </Item>
+							)
+						}
+					    </Stack>
+					)
+					: <div>loading game stats...</div>
 				}
 			</Stack>
 		</Stack>

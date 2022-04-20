@@ -6,5 +6,9 @@
     {
         "name": "getGameStats",
         "private": false
+    },
+    {
+        "name": "getGameStatsGroup",
+        "private": false
     }
 ]
