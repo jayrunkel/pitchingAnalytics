@@ -46,6 +46,12 @@
 		color: rgba(0,0,0,0.6);
 }
 
+.navLabel {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
 .charts {
 		margin-top: 15px;
 }

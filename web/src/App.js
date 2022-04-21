@@ -50,7 +50,8 @@ function GameControls({games, numGames, curGameNum, setCurGameNum, showAllGames,
 
 
 		return (
-				<Stack direction="row" spacing={20} justifyContent="space-between">
+
+				<Stack direction="row" spacing={20} justifyContent="space-evenly">
 			{
 				showAllGames 
 					? <Button variant="outlined"
@@ -58,31 +59,37 @@ function GameControls({games, numGames, curGameNum, setCurGameNum, showAllGames,
 								onClick={() => toggleShowAllGames(false)}>
 						All Games
 						</Button>
-					: <Stack direction="row" space={4} justifyContent="space-between">
-								<Button variant="outlined"
+					: <Stack direction="row" spacing={2} justifyContent="space-evenly">
+								<Stack direction="row" spacing={2} justifyContent="space-evenly">
+										<label className="navLabel">Click To View All Game Data:</label>
+										<Button variant="outlined"
 												startIcon={<RadioButtonUncheckedIcon />}
 												onClick={() => toggleShowAllGames(true)}>
 										All Games
 								</Button>
-						
-						<Stack direction="row" spacing={1}>
-							<IconButton
-								color={showAllGames ? "disabled" : "primary"}
-								aria-label="Backward"
-								onClick={() => decrement() }>
-								<ArrowBackIcon />
-							</IconButton>
-							<NumberOfGames numGames={curGameNum}/>
-							<IconButton
-								color={showAllGames ? "disabled" : "primary"}
-								aria-label="Forward"
-								onClick={() => increment()}>
-								<ArrowForwardIcon />
-							</IconButton>
+								</Stack>
+
+								 <Stack direction="row" spacing={2} justifyContent="space-evenly">
+										 <label className="navLabel">Select Game To View:</label> 
+										 <Stack direction="row" spacing={1}>
+												 <IconButton
+														 color={showAllGames ? "disabled" : "primary"}
+														 aria-label="Backward"
+														 onClick={() => decrement() }>
+														 <ArrowBackIcon />
+												 </IconButton>
+												 <NumberOfGames numGames={curGameNum}/>
+												 <IconButton
+														 color={showAllGames ? "disabled" : "primary"}
+														 aria-label="Forward"
+														 onClick={() => increment()}>
+														 <ArrowForwardIcon />
+												 </IconButton>
+										 </Stack>
+								 </Stack>
 						</Stack>
-					</Stack>
 			}
-		</Stack>
+				</Stack>
 	)
 }
 
