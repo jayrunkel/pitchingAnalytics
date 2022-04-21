@@ -17,7 +17,7 @@ const chartList =
 */
 		{
 			chartNum: 2,
-			name: "Pitch Velocity By Game and Pitch Type",
+			name: "Avg Velocity By Game and Pitch Type",
 			chartId: "6238cb4a-02d9-4646-8539-4ef6333e520b",
 			gameFilterField: {"gameDetails.Game": null},
 		},
