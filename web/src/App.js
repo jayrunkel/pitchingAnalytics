@@ -15,7 +15,7 @@ import Stack from '@mui/material/Stack';
 import {Chart} from './Chart';
 import {buildChartFilter, DashboardSelect} from './DashboardSelect';
 import {GameStats} from './GameStats';
-
+import CssBaseline from '@mui/material/CssBaseline';
 
 
 const app = new Realm.App({ id: "pitchinganalytics-uchws" });
@@ -137,7 +137,8 @@ function App() {
 						[selectedChartId])
 	return (
 		user ? 
-    <div className="App">
+					<div className="App">
+					<CssBaseline />		
       <header className="App-header">
         <p>
 					Pitching Analytics. Analyzing {<NumberOfGames numGames={numGames}/>} games.
@@ -161,7 +162,7 @@ function App() {
 						{
 							(selectedChartId)
 								? <Chart height={'600px'} width={'800px'} filter={buildChartFilter(selectedChartId, showAllGames, curGameNum)} chartId={selectedChartId} />
-							: <span>Select a chart</span>
+							: <span>Select a chart from the list on the left</span>
 						}
 					</div>
 				</Stack>

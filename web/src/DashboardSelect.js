@@ -8,12 +8,13 @@ const chartList =
 {
 	baseUrl : "https://charts.mongodb.com/charts-runkel-bbjup",
 	charts: [
-		{
+/*		{
 			chartNum: 1,
 			name: "Game Summary",
 			chartId: "622f78c0-8117-4aeb-8e41-3472988fe4ed",
 			gameFilterField: {"gameDetails.Game": null},
 		},
+*/
 		{
 			chartNum: 2,
 			name: "Pitch Velocity By Game and Pitch Type",
@@ -83,17 +84,29 @@ const Heading = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary,
+    fontSize: '18px'
 }));
 
 export const DashboardSelect = ({ curSelectedChart, setCurSelectedChart}) => {
 
-	const selectedChartStyle = {
-		color: 'green',
-		'textDecorationColor': 'green',
-		'fontWeight': 'bold'
-	};
-	
+    const selectedChartStyle = {
+	'color': 'blue',
+	'textDecorationColor': 'blue',
+	'fontWeight': 'bold',
+	'fontFamily': 'Roboto, Helvetica, Arial, san-serif',
+    };
+
+    const notSelectedChartStyle = {
+	'color': 'rgba(0,0,0,0.6)',
+	'textDecorationColor': 'rgba(0,0,0,0.6)',
+	'fontWeight': 400,
+	'fontFamily': 'Roboto, Helvetica, Arial, san-serif',
+
+    };
+
+	  
+	  
 	const handleClick = (chartId) => {
 		setCurSelectedChart(chartId);
 		console.log("Selected chart: ", chartId);
@@ -101,13 +114,13 @@ export const DashboardSelect = ({ curSelectedChart, setCurSelectedChart}) => {
 
 	const charts = chartList.charts.map((chartObj) => {
 		return (
-			<label className="chartSelectLabel"
+			<div className="chartSelectLabel"
 						 key={chartObj.chartNum}
-						 style={chartObj.chartId === curSelectedChart ? selectedChartStyle : {}}
+						 style={chartObj.chartId === curSelectedChart ? selectedChartStyle : notSelectedChartStyle}
 						 onClick={() => handleClick(chartObj.chartId)}>{
 				chartObj.name
 			}
-			</label>
+			</div>
 		);
 	});
 	
