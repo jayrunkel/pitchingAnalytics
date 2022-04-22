@@ -23,6 +23,11 @@
   color: white;
 }
 
+.gameControls {
+    background-color: #282c34;
+    color: white;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -49,7 +54,16 @@
 .navLabel {
     font-size: 14px;
     margin-top: 10px;
-    margin-right: 10px;
+}
+
+.navLabelSolo {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.currentGameNum {
+    font-size: 16px;
+    margin-top: 8px;
 }
 
 .charts {

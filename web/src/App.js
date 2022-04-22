@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckBoxOutlineBlankOutlined from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import CheckBoxOutlined from '@mui/icons-material/CheckBoxOutlined';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 //import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -50,36 +52,31 @@ function GameControls({games, numGames, curGameNum, setCurGameNum, showAllGames,
 
 
 		return (
-
-				<Stack direction="row" spacing={20} justifyContent="space-evenly">
-			{
+				<div className="gameControls">
+						{
 				showAllGames 
-					? <Button variant="outlined"
-								startIcon={<RadioButtonCheckedIcon />}
-								onClick={() => toggleShowAllGames(false)}>
-						All Games
-						</Button>
-					: <Stack direction="row" spacing={2} justifyContent="space-evenly">
-								<Stack direction="row" spacing={2} justifyContent="space-evenly">
-										<label className="navLabel">Click To View All Game Data:</label>
-										<Button variant="outlined"
-												startIcon={<RadioButtonUncheckedIcon />}
-												onClick={() => toggleShowAllGames(true)}>
-										All Games
-								</Button>
+					? 		<Stack direction="row" spacing={2} justifyContent="flex-end">
+										<label className="navLabelSolo">Viewing All Games. Uncheck to select a specific game:</label>
+										<Button variant="text"
+														style={{marginLeft: '0px'}}
+												startIcon={<CheckBoxOutlined />}
+												onClick={() => toggleShowAllGames(false)}/>
 								</Stack>
-
+		
+					: <Stack direction="row" spacing={2} justifyContent="space-evenly">
 								 <Stack direction="row" spacing={2} justifyContent="space-evenly">
-										 <label className="navLabel">Select Game To View:</label> 
+										 <label className="navLabel">Currently Viewing Game:</label> 
 										 <Stack direction="row" spacing={1}>
 												 <IconButton
+														 style={{marginRight: '0px'}}
 														 color={showAllGames ? "disabled" : "primary"}
 														 aria-label="Backward"
 														 onClick={() => decrement() }>
 														 <ArrowBackIcon />
 												 </IconButton>
-												 <NumberOfGames numGames={curGameNum}/>
+												 <div style={{marginTop: '8px', marginRight: '0px', marginLeft: '0px'}}>{curGameNum}</div>
 												 <IconButton
+														 style={{marginLeft: '0px'}}
 														 color={showAllGames ? "disabled" : "primary"}
 														 aria-label="Forward"
 														 onClick={() => increment()}>
@@ -87,9 +84,16 @@ function GameControls({games, numGames, curGameNum, setCurGameNum, showAllGames,
 												 </IconButton>
 										 </Stack>
 								 </Stack>
+								<Stack direction="row" spacing={2} justifyContent="space-evenly">
+										<label className="navLabel">Check To View All Game Data:</label>
+										<Button variant="text"
+														style={{marginLeft: '0px'}}
+												startIcon={<CheckBoxOutlineBlankOutlined />}
+												onClick={() => toggleShowAllGames(true)}/>
+								</Stack>
 						</Stack>
-			}
-				</Stack>
+						}
+						</div>
 	)
 }
 
@@ -102,8 +106,8 @@ function Login({ setUser }) {
   return <button onClick={loginAnonymous}>Log In</button>;
 }
 
-function NumberOfGames({ numGames }) {
-	return <span>{numGames}</span>
+function NumberOfGames({ numGames, className }) {
+		return <span className={className}>{numGames}</span>
 }
 
 function App() {
@@ -150,16 +154,14 @@ function App() {
         <p>
 					Pitching Analytics. Analyzing {<NumberOfGames numGames={numGames}/>} games.
         </p>
-				{
-					<GameControls games={allGames}
-												numGames={numGames}
-												curGameNum={curGameNum}
-												setCurGameNum={setCurGameNum}
-												showAllGames={showAllGames}
-												setShowAllGames={setShowAllGames}
-					/>
-				}
-      </header>
+
+			</header>
+							<GameControls games={allGames}
+														numGames={numGames}
+														curGameNum={curGameNum}
+														setCurGameNum={setCurGameNum}
+														showAllGames={showAllGames}
+														setShowAllGames={setShowAllGames} />
 			<Stack className="statsBody" direction="column">
 				<GameStats className="gameStats" games={allGames} showAllGames={showAllGames} gameNum={curGameNum} user={user}/>
 				<Stack className="chartsSection" name="chartSection" direction="row">
