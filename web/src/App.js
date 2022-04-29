@@ -12,6 +12,7 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckBoxOutlineBlankOutlined from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import CheckBoxOutlined from '@mui/icons-material/CheckBoxOutlined';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import Grid from '@mui/material/Grid';
 //import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import {Chart} from './Chart';
@@ -55,43 +56,52 @@ function GameControls({games, numGames, curGameNum, setCurGameNum, showAllGames,
 				<div className="gameControls">
 						{
 				showAllGames 
-					? 		<Stack direction="row" spacing={2} justifyContent="flex-end">
-										<label className="navLabelSolo">Viewing All Games. Uncheck to select a specific game:</label>
-										<Button variant="text"
-														style={{marginLeft: '0px'}}
-												startIcon={<CheckBoxOutlined />}
-												onClick={() => toggleShowAllGames(false)}/>
-								</Stack>
+					? 		<Grid container spacing={2} justifyContent="space-around">
+									<Grid item xs={6}>
+
+									</Grid>
+									<Grid item xs={6}>
+										<Stack direction="row" spacing={2} justifyContent="flex-end">
+											<label className="navLabelSolo">Viewing All Games. Uncheck to select a specific game:</label>
+											<Button variant="text"
+															style={{marginLeft: '0px'}}
+															startIcon={<CheckBoxOutlined />}
+															onClick={() => toggleShowAllGames(false)}/>
+										</Stack>
+									</Grid>
+								</Grid>
 		
-					: <Stack direction="row" spacing={2} justifyContent="space-evenly">
-								 <Stack direction="row" spacing={2} justifyContent="space-evenly">
-										 <label className="navLabel">Currently Viewing Game:</label> 
-										 <Stack direction="row" spacing={1}>
-												 <IconButton
-														 style={{marginRight: '0px'}}
-														 color={showAllGames ? "disabled" : "primary"}
-														 aria-label="Backward"
-														 onClick={() => decrement() }>
-														 <ArrowBackIcon />
-												 </IconButton>
-												 <div style={{marginTop: '8px', marginRight: '0px', marginLeft: '0px'}}>{curGameNum}</div>
-												 <IconButton
-														 style={{marginLeft: '0px'}}
-														 color={showAllGames ? "disabled" : "primary"}
-														 aria-label="Forward"
-														 onClick={() => increment()}>
-														 <ArrowForwardIcon />
-												 </IconButton>
-										 </Stack>
-								 </Stack>
-								<Stack direction="row" spacing={2} justifyContent="space-evenly">
-										<label className="navLabel">Check To View All Game Data:</label>
-										<Button variant="text"
-														style={{marginLeft: '0px'}}
-												startIcon={<CheckBoxOutlineBlankOutlined />}
-												onClick={() => toggleShowAllGames(true)}/>
-								</Stack>
-						</Stack>
+							: <Grid container spacing={2} justifyContent="space-around">
+									<Grid item xs={6}>
+										<Stack direction="row" spacing={1} justifyContent="center">
+											<label className="navLabel">Currently Viewing Game:</label> 
+											<IconButton
+												style={{marginRight: '0px'}}
+												color={showAllGames ? "disabled" : "primary"}
+												aria-label="Backward"
+												onClick={() => decrement() }>
+												<ArrowBackIcon />
+											</IconButton>
+											<div style={{marginTop: '8px', marginRight: '0px', marginLeft: '0px'}}>{curGameNum}</div>
+											<IconButton
+												style={{marginLeft: '0px'}}
+												color={showAllGames ? "disabled" : "primary"}
+												aria-label="Forward"
+												onClick={() => increment()}>
+												<ArrowForwardIcon />
+											</IconButton>
+										</Stack>
+								 </Grid>
+									<Grid item xs={6}>
+										<Stack direction="row" spacing={2} justifyContent="flex-end">
+											<label className="navLabel">Check To View All Game Data:</label>
+											<Button variant="text"
+															style={{marginLeft: '0px', marginTop: '4px'}}
+															startIcon={<CheckBoxOutlineBlankOutlined />}
+															onClick={() => toggleShowAllGames(true)}/>
+										</Stack>
+								</Grid>
+						</Grid>
 						}
 						</div>
 	)
